@@ -3,7 +3,7 @@
 
 
 df::Manager::Manager() {
-
+	m_is_started = false;
 }
 
 
@@ -38,6 +38,7 @@ std::string df::Manager::getType() const{
 
 
 df::Manager::~Manager() {
+	shutDown();
 
 }
 
