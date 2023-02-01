@@ -131,7 +131,9 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="LogManager.h" />
     <ClInclude Include="Manager.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="Utility.h" />
+    <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Clock.cpp" />
@@ -139,7 +141,9 @@
     <ClCompile Include="LogManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Manager.cpp" />
+    <ClCompile Include="Object.cpp" />
     <ClCompile Include="Utility.cpp" />
+    <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
