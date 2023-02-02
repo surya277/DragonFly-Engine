@@ -7,7 +7,7 @@ namespace df {
 	{
 
 	public:
-		char* getTimeString();
+		static char* getTimeString();
 	};
 }
 

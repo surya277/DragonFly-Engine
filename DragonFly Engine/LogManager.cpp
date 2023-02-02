@@ -52,9 +52,8 @@ namespace df {
 
 	// Set Flush to true so OS writes to file immediately
 	//
-	void setFlush(bool do_flush = true) {
-		if (do_flush)
-			fflush(stdout);
+	void LogManager::setFlush(bool do_flush) {
+		m_do_flush = do_flush;
 	}
 
 
@@ -62,7 +61,7 @@ namespace df {
 	//
 	int LogManager::writeLog(const char* fmt, ...) const {
 		//Write to Log File. Get variable number of arguments and add them to the log
-		fprintf(m_p_f, "Message: ");
+		fprintf(m_p_f, "Message: %s ", df::Utility::getTimeString());
 		//fprintf(m_p_f, df::Utility::getTimeString());
 
 		va_list args;
@@ -71,6 +70,8 @@ namespace df {
 		vfprintf(m_p_f, fmt, args);
 		va_end(args);
 
+		if (m_do_flush)
+			fflush(m_p_f);
 
 		return 1;
 

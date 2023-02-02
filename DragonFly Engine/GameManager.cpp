@@ -24,7 +24,7 @@ namespace df {
 
 	// Startup all GameManager Services
 	int GameManager::startUp() {
-		//timeBeginPeriod(1);
+		timeBeginPeriod(1);
 		LM.startUp();
 		LM.writeLog("Game Manager Started. \n");
 		return 0;
@@ -33,7 +33,7 @@ namespace df {
 
 	// ShutDown all Game Manager Services
 	void GameManager::shutDown() {
-		//timeEndPeriod(1);
+		timeEndPeriod(1);
 		setGameOver(true);
 		LM.writeLog("Game Manager Shuting down. \n");
 	}

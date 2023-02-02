@@ -3,6 +3,7 @@
 #include <string>
 
 #include "Vector.h"
+#include "Event.h"
 namespace df {
 
 
@@ -36,6 +37,10 @@ namespace df {
 		
 		// Get Object postion in world
 		Vector getPosition() const;
+
+		// Handle event
+		// Return 0 if ignored, else 1 if handled
+		virtual int eventHandler(const Event* p_e);
 	};
 
 }

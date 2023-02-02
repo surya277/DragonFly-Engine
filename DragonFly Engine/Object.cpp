@@ -1,4 +1,5 @@
 #include "Object.h"
+#include "WorldManager.h"
 
 namespace df {
 
@@ -6,6 +7,9 @@ namespace df {
 		static int id = 0;
 		m_id = id++;
 		m_type = "Object";
+
+		// Add self to WorldManager
+		WM.insertObject(this);
 	}
 
 	void Object::setId(int new_id) {
@@ -32,8 +36,13 @@ namespace df {
 		return m_position;
 	}
 
-	Object::~Object() {
+	int Object::eventHandler(const Event* p_e)
+	{
+		return 0;
+	}
 
+	Object::~Object() {
+		WM.removeObject(this);					//Remove Self from game world
 	}
 
 }

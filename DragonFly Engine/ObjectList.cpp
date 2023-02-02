@@ -21,10 +21,10 @@ namespace df {
 		for (int i = 0; i < m_count; i++) {
 			if (m_p_obj[i] == p_o) {
 				m_p_obj[i] = m_p_obj[m_count--];
-				return true;
+				return 0;
 			}
 		}
-		return false;
+		return -1;
 	}
 
 	// Clear the list
