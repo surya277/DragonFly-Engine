@@ -4,8 +4,8 @@ namespace df {
 
 	// Default Vector with (0,0)
 	Vector::Vector() {
-		m_x = 0.0f;
-		m_y = 0.0f;
+		m_x = 1.0f;
+		m_y = 1.0f;
 	}
 
 
