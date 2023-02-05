@@ -1,6 +1,9 @@
 #include "GameManager.h"
 #include "LogManager.h"
+#include "WorldManager.h"
 #include "Clock.h"
+
+#include <iostream>
 #include <Windows.h>
 
 const int FRAME_TIME_DEFAULT = 33;
@@ -26,6 +29,7 @@ namespace df {
 	int GameManager::startUp() {
 		timeBeginPeriod(1);
 		LM.startUp();
+		WM.startUp();
 		LM.writeLog("Game Manager Started. \n");
 		return 0;
 	}
@@ -40,17 +44,20 @@ namespace df {
 
 	// Run Game Loop
 	void GameManager::run() {
-		//while (!game_over) {
+		while (!game_over) {
+			
 			Clock clock;
 			long int start_time = clock.delta();
 			LM.writeLog("Hello Log Manager \n");
-			LM.writeLog("Log Manager Running. \n");
+			LM.writeLog("Log Manager Running? \n");
 			LM.writeLog("DisplayManger::startUp() : max X is %d, max Y is %d \n", 10, 20);
+			Sleep(3);
 			long int end_time = clock.split();
+			std::cout << end_time;
 			LM.writeLog("sleep_time: %d \n", frame_time - (end_time/1000));
 			Sleep(frame_time - end_time/1000);
-
-		//}
+			
+		}
 	}
 
 
