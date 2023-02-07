@@ -144,6 +144,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Clock.h" />
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="DisplayManager.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventStep.h" />
     <ClInclude Include="GameManager.h" />
@@ -158,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Clock.cpp" />
+    <ClCompile Include="DisplayManager.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventStep.cpp" />
     <ClCompile Include="GameManager.cpp" />

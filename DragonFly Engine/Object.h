@@ -41,6 +41,9 @@ namespace df {
 		// Handle event
 		// Return 0 if ignored, else 1 if handled
 		virtual int eventHandler(const Event* p_e);
+
+		// Draw Object
+		virtual int draw();
 	};
 
 }

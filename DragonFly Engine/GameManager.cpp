@@ -2,6 +2,7 @@
 #include "LogManager.h"
 #include "WorldManager.h"
 #include "Clock.h"
+#include "DisplayManager.h"
 
 #include <iostream>
 #include <Windows.h>
@@ -45,16 +46,17 @@ namespace df {
 	// Run Game Loop
 	void GameManager::run() {
 		while (!game_over) {
-			
 			Clock clock;
 			long int start_time = clock.delta();
-			LM.writeLog("Hello Log Manager \n");
-			LM.writeLog("Log Manager Running? \n");
-			LM.writeLog("DisplayManger::startUp() : max X is %d, max Y is %d \n", 10, 20);
-			Sleep(3);
+
+			// Get Input
+
+			WM.update();
+			WM.draw();
+			DM.swapBuffers();
 			long int end_time = clock.split();
 			std::cout << end_time;
-			LM.writeLog("sleep_time: %d \n", frame_time - (end_time/1000));
+			//LM.writeLog("sleep_time: %d \n", frame_time - (end_time/1000));
 			Sleep(frame_time - end_time/1000);
 			
 		}

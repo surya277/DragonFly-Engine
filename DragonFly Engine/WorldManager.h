@@ -49,6 +49,9 @@ namespace df {
 		// Indicate Object is to be deleted at end of current game loop
 		// Return 0 if ok, or else -1
 		int markForDelete(Object* p_o);
+
+		// Draw all Objects
+		void draw();
 	};
 
 }

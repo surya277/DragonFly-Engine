@@ -2,6 +2,9 @@
 #include <string>
 
 
+#include "Event.h"
+
+
 namespace df {
 
 	class Manager
@@ -32,6 +35,8 @@ namespace df {
 
 		//returns true if startUp was executed OK else false
 		bool isStarted() const;
+
+		int onEvent(const Event* p_event) const;
 
 	};
 

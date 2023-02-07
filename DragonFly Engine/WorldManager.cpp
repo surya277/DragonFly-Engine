@@ -94,5 +94,16 @@ namespace df {
 		m_deletions.insert(p_o);
 	}
 
+	void WorldManager::draw() {
+
+		ObjectListIterator li(&m_updates);
+
+		while (!li.isDone()) {
+			Object* p_temp_o = li.currentObject();
+			p_temp_o->draw();
+			li.next();
+		}
+	}
+
 
 }
