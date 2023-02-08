@@ -9,12 +9,15 @@
 #include "Clock.h"
 #include "Event.h"
 #include "EventStep.h"
+#include "DisplayManager.h"
 
 #include <iostream>
 #include <Windows.h>
 #include <assert.h>
 
 #include<iostream>
+
+bool gameManagerTest();
 bool vectorTest();
 void objectTest();
 bool clockTest();
@@ -24,23 +27,32 @@ bool worldManagerTest();
 
 int main(int argc, char* argv[]) {
 	std::cout << "Hello";
-	GM.startUp();
-	if (clockTest())
-		puts("\nPASS");
-	else
-		puts("\nFAIL");
+	//GM.startUp();
+	//if (clockTest())
+	//	puts("\nPASS");
+	//else
+	//	puts("\nFAIL");
 
-	if (vectorTest())
-		puts("\nPASS");
-	else
-		puts("\nFAIL");
+	//if (vectorTest())
+	//	puts("\nPASS");
+	//else
+	//	puts("\nFAIL");
 	
 
-	objectTest();
-	worldManagerTest();
-	eventTest();
-	GM.shutDown();
+	gameManagerTest();
+	//GM.run();
+	//objectTest();
+	//worldManagerTest();
+	//eventTest();
+	//GM.shutDown();
 
+}
+
+bool gameManagerTest() {
+	GM.startUp();
+	GM.run();
+	GM.shutDown();
+	return true;
 }
 
 bool clockTest() {

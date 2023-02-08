@@ -1,5 +1,6 @@
 #include "Object.h"
 #include "WorldManager.h"
+#include "DisplayManager.h"
 
 namespace df {
 
@@ -40,6 +41,28 @@ namespace df {
 	{
 		return 0;
 	}
+
+	// Draw Object
+	int Object::draw() {
+		//DM.drawCh(m_position, );
+		return 1;
+	}
+
+	// Set altitude of Object
+	int Object::setAltitude(int new_altitude) {
+		if (new_altitude >= 0 && new_altitude < MAX_ALTITUDE) {
+			m_altitude = new_altitude;
+			return 0;
+		}
+		return -1;
+
+	}
+
+	// Return Altitude of Object
+	int Object::getAltitude() const {
+		return m_altitude;
+	}
+
 
 	Object::~Object() {
 		WM.removeObject(this);					//Remove Self from game world

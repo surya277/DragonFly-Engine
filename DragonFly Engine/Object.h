@@ -13,6 +13,8 @@ namespace df {
 		int m_id;						// Unique Game Engine ID
 		std::string m_type;				// Game Programmer Defined TYPE
 		Vector m_position;				// Position in Game world
+		int m_altitude;					// Layer to be drawn in (0 to MAX)
+
 
 	public:
 		Object();
@@ -44,6 +46,13 @@ namespace df {
 
 		// Draw Object
 		virtual int draw();
+
+		// Set altitude of Object
+		// return 0 if ok, else -1
+		int setAltitude(int new_altitude);
+
+		// Return Altitude of object
+		int getAltitude() const;
 	};
 
 }

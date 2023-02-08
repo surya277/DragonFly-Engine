@@ -43,9 +43,9 @@ std::string df::Manager::getType() const{
 int df::Manager::onEvent(const Event* p_event) const {
 	int count = 0;
 
-	ObjectList* all_objects = &WM.getAllObjects();								// Get all Objects in the World 
+	ObjectList all_objects = WM.getAllObjects();								// Get all Objects in the World 
 
-	ObjectListIterator all_objects_itr(all_objects);
+	ObjectListIterator all_objects_itr(&all_objects);
 
 	while (!all_objects_itr.isDone()) {
 		all_objects_itr.currentObject()->eventHandler(p_event);					// Get Current Object from iterator and access eventHandler function passing p_event to that Objects Function

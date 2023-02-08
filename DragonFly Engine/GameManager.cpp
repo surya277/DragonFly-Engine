@@ -31,6 +31,7 @@ namespace df {
 		timeBeginPeriod(1);
 		LM.startUp();
 		WM.startUp();
+		DM.startUp();
 		LM.writeLog("Game Manager Started. \n");
 		return 0;
 	}
@@ -53,6 +54,7 @@ namespace df {
 
 			WM.update();
 			WM.draw();
+			DM.drawCh(Vector(0, 0), '-',df::YELLOW);
 			DM.swapBuffers();
 			long int end_time = clock.split();
 			std::cout << end_time;

@@ -6,6 +6,7 @@
 #define WM df::WorldManager::getInstance()
 
 namespace df {
+	const int MAX_ALTITUDE = 4;
 
 	class WorldManager : public Manager
 	{
@@ -16,10 +17,13 @@ namespace df {
 
 		ObjectList m_updates;
 		ObjectList m_deletions;
+		
 
 	public:
 		// Get one and only instance of world manager
 		static WorldManager& getInstance();
+
+		
 
 		// Startup Game world
 		int startUp();

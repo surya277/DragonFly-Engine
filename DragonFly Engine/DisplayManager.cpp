@@ -8,6 +8,7 @@ namespace df {
 		m_window_horizontal_chars = WINDOW_HORIZONTAL_CHARS_DEFAULT;
 		m_window_vertical_chars = WINDOW_VERTICAL_CHARS_DEFAULT;
 		m_p_window = NULL;
+		m_window_background_color = WINDOW_BACKGROUND_COLOR_DEFAULT;
 	}
 
 	DisplayManager& DisplayManager::getInstance() {
@@ -108,6 +109,29 @@ namespace df {
 
 	}
 
+
+	// Draw String at window location (x,y) with default color
+	// Justified left, center or right
+	// Return 0 if ok, else -1
+	int DisplayManager::drawString(Vector pos, std::string str, Justification just, Color color) const{
+		Vector start_pos = pos;
+		switch (just) {
+		case CENTER_JUSTIFIED:
+			start_pos.setX(pos.getX() - str.size() / 2);
+			break;
+		case RIGHT_JUSTIFIED:
+			start_pos.setX(pos.getX() - str.size());
+			break;
+		}
+
+		for (int i = 0; i < str.size(); i++) {
+			Vector temp_pos(start_pos.getX() + i, start_pos.getY());
+			drawCh(temp_pos, str[i], color);
+		}
+
+		return 0;
+	}
+
 	// Return window's Horizontal characters maximum 
 	int DisplayManager::getHorizontal() const {
 		return m_window_horizontal_chars;
@@ -119,12 +143,12 @@ namespace df {
 	}
 
 	// Return window's Horizontal pixels maximum 
-	int DisplayManager::getHorizontal() const {
+	int DisplayManager::getHorizontalPixels() const {
 		return m_window_horizontal_pixels;
 	}
 
 	// Return window's Vertical pixels maximum 
-	int DisplayManager::getHorizontal() const {
+	int DisplayManager::getVerticalPixels() const {
 		return m_window_vertical_pixels;
 	}
 
@@ -139,7 +163,7 @@ namespace df {
 		m_p_window->display();
 
 		// Clear Other window to get ready for next draw
-		m_p_window->clear();
+		m_p_window->clear(m_window_background_color);
 
 		return 0;
 
@@ -174,5 +198,45 @@ namespace df {
 		v.setX(pixels.getX() / charWidth());
 		v.setY(pixels.getY() / charHeight());
 		return v;
+	}
+
+	// Set default Background Color
+	bool DisplayManager::setBackgroundColor(int new_color) {
+		switch (new_color) {
+		case YELLOW:
+			m_window_background_color = sf::Color::Yellow;
+			break;
+		case RED:
+			m_window_background_color = sf::Color::Red;
+			break;
+		case WHITE:
+			m_window_background_color = sf::Color::White;
+			break;
+		case BLACK:
+			m_window_background_color = sf::Color::Black;
+			break;
+		case GREEN:
+			m_window_background_color = sf::Color::Green;
+			break;
+		case MAGENTA:
+			m_window_background_color = sf::Color::Magenta;
+			break;
+		case CYAN:
+			m_window_background_color = sf::Color::Cyan;
+			break;
+		case BLUE:
+			m_window_background_color = sf::Color::Blue;
+			break;
+
+		default:
+			return false;
+		}
+		return true;
+	}
+
+
+	// Close graphics Window
+	void DisplayManager::shutDown() {
+		Manager::shutDown();
 	}
 }

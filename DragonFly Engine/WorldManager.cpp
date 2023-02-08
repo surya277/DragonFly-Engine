@@ -97,11 +97,15 @@ namespace df {
 	void WorldManager::draw() {
 
 		ObjectListIterator li(&m_updates);
+		for (int i = 0; i < MAX_ALTITUDE; i++) {
 
-		while (!li.isDone()) {
-			Object* p_temp_o = li.currentObject();
-			p_temp_o->draw();
-			li.next();
+			while (!li.isDone()) {
+				Object* p_temp_o = li.currentObject();
+				if (p_temp_o->getAltitude() == i) {
+					p_temp_o->draw();
+					li.next();
+				}
+			}
 		}
 	}
 

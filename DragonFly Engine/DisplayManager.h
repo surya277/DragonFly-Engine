@@ -5,6 +5,8 @@
 #include "Vector.h"
 #include "Manager.h"
 
+
+
 #define DM df::DisplayManager::getInstance()
 
 namespace df {
@@ -18,7 +20,11 @@ namespace df {
 	const std::string WINDOW_TITLE_DEFAULT = "Dragonfly Engine";
 	const std::string FONT_FILE_DEFAULT = "df-font.ttf";
 
-
+	enum Justification {
+		LEFT_JUSTIFIED,
+		RIGHT_JUSTIFIED,
+		CENTER_JUSTIFIED
+	};
 
 	class DisplayManager : public Manager
 	{
@@ -33,11 +39,11 @@ namespace df {
 		int m_window_horizontal_chars;							// Horizontal ASCII spaces in window
 		int m_window_vertical_chars;							// Vertical ASCII spaces in window
 
+		sf::Color m_window_background_color;
 
 	public:
 
 		// Get one and only instance of display manger
-
 		static DisplayManager& getInstance();
 
 		// Open graphics window
@@ -83,6 +89,15 @@ namespace df {
 		Vector pixelsToSpaces(Vector pixels) const;
 
 
+		// Draw String at window location (x,y) with default color
+		// Justified left, center or right
+		// Return 0 if ok, else -1
+		int drawString(Vector pos, std::string str, Justification just, Color color) const;
+
+
+		// Set default Color
+		// Return true if ok else false
+		bool setBackgroundColor(int new_color);
 	};
 
 }
