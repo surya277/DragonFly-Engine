@@ -10,6 +10,7 @@
 #include "Event.h"
 #include "EventStep.h"
 #include "DisplayManager.h"
+#include "InputManager.h"
 
 #include <iostream>
 #include <Windows.h>
@@ -40,6 +41,7 @@ int main(int argc, char* argv[]) {
 	
 
 	gameManagerTest();
+	
 	//GM.run();
 	//objectTest();
 	//worldManagerTest();

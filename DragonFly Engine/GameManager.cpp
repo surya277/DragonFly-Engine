@@ -3,6 +3,7 @@
 #include "WorldManager.h"
 #include "Clock.h"
 #include "DisplayManager.h"
+#include "InputManager.h"
 
 #include <iostream>
 #include <Windows.h>
@@ -32,6 +33,7 @@ namespace df {
 		LM.startUp();
 		WM.startUp();
 		DM.startUp();
+		IM.startUp();
 		LM.writeLog("Game Manager Started. \n");
 		return 0;
 	}
@@ -49,17 +51,20 @@ namespace df {
 		while (!game_over) {
 			Clock clock;
 			long int start_time = clock.delta();
-
+			IM.getInput();
 			// Get Input
 
 			WM.update();
 			WM.draw();
 			DM.drawCh(Vector(0, 0), '-',df::YELLOW);
 			DM.swapBuffers();
-			long int end_time = clock.split();
-			std::cout << end_time;
+			
+			
+			long int end_time = clock.split() / 1000000;
+			//std::cout << frame_time << "\n";
+			//std::cout << end_time;
 			//LM.writeLog("sleep_time: %d \n", frame_time - (end_time/1000));
-			Sleep(frame_time - end_time/1000);
+			Sleep((frame_time - end_time));
 			
 		}
 	}

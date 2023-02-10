@@ -6,6 +6,12 @@
 #include "Event.h"
 namespace df {
 
+	enum Solidness {
+		HARD,
+		SOFT,
+		SPECTRAL
+	};
+
 
 	class Object
 	{
@@ -14,7 +20,10 @@ namespace df {
 		std::string m_type;				// Game Programmer Defined TYPE
 		Vector m_position;				// Position in Game world
 		int m_altitude;					// Layer to be drawn in (0 to MAX)
-
+		Vector m_direction;				// Direction of Object
+		float m_speed;					// Speed of Object
+		Solidness m_solidness;			// Solidness of Object
+		bool m_no_soft;					// True if won't move onto soft objects
 
 	public:
 		Object();
@@ -53,6 +62,56 @@ namespace df {
 
 		// Return Altitude of object
 		int getAltitude() const;
+
+
+
+		// SPEED DIRECTION VELOCITY
+
+		// Set Speed of Object
+		void setSpeed(float speed);
+
+		// Get speed of Object
+		float getSpeed() const;
+
+		// Set direction of Object
+		void setDirection(Vector new_direction);
+
+		// Get direction of Object
+		Vector getDirection() const;
+
+		// Set direction and speed of Object
+		void setVelocity(Vector new_velocity);
+
+		// Get velocity of object based on direction and speed
+		Vector getVelocity() const;
+
+		// Predict Object position based on speed and direction
+		// Return predicted position
+		Vector predictPosition();
+
+
+
+		// SOLIDNESS
+
+		// True if hard or soft, else false
+		bool isSolid() const;
+
+		// Set Object Solidness, with checks for consistency
+		// Return 0 if ok, else -1
+		int setSolidness(Solidness new_solid);
+
+		// Return object solidness
+		Solidness getSolidness() const;
+
+
+		// SOFT COLLISION
+		
+		// Set 'no soft' setting (True - Cannot move onto SOFT Objects
+		void setNoSoft(bool new_no_soft = true);
+
+		// Get no soft setting
+		bool getNoSoft() const;
+
 	};
 
 }

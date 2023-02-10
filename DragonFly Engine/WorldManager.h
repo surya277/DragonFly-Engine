@@ -56,6 +56,19 @@ namespace df {
 
 		// Draw all Objects
 		void draw();
+
+
+		// Return list of Objects collided with at given position
+		// Collision only with solid Objects
+		// Does not consider if P_o is solid or not
+		ObjectList getCollision(Object* p_o, Vector where) const;
+
+		// Move Object
+		// If collision with solid, send collision events
+		// If no collision with solid, move ok else don't move
+		// If Object is SPECTRAL move ok
+		// Return 0 if move ok, else -1 if collision with solid
+		int moveObject(Object* p_o, Vector where);
 	};
 
 }

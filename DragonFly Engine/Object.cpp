@@ -9,6 +9,9 @@ namespace df {
 		m_id = id++;
 		m_type = "Object";
 
+		m_speed = 0.0f;
+		m_solidness = HARD;
+		m_no_soft = false;
 		// Add self to WorldManager
 		WM.insertObject(this);
 	}
@@ -16,7 +19,7 @@ namespace df {
 	void Object::setId(int new_id) {
 		m_id = new_id;
 	}
-
+	
 	int Object::getId() const {
 		return m_id;
 	}
@@ -63,6 +66,76 @@ namespace df {
 		return m_altitude;
 	}
 
+	// Set direction of Object
+	void Object::setDirection(Vector new_direction) {
+		m_direction = new_direction;
+	}
+
+	// Get direction of Object
+	Vector Object::getDirection() const {
+		return m_direction;
+	}
+
+	// Set speed of Object
+	void Object::setSpeed(float speed) {
+		m_speed = speed;
+	}
+
+	// Get speed of Object
+	float Object::getSpeed() const {
+		return m_speed;
+	}
+
+	// Set direction and speed of Object
+	void Object::setVelocity(Vector new_velocity) {
+		m_speed = new_velocity.getMagnitude();
+		new_velocity.normalize();
+		m_direction = new_velocity;
+	}
+
+	// Get Velocity of object based on speed and direction
+	Vector Object::getVelocity() const {
+		Vector vel = m_direction;
+		vel.scale(m_speed);
+		return vel;
+	}
+
+	// Predict Object position based on speed and direction
+	// Return Predicted Position
+	Vector Object::predictPosition() {
+		Vector new_pos = m_position + getVelocity();
+		return new_pos;
+	}
+
+	// True if solidness is Hard or soft, else false
+	bool Object::isSolid() const {
+		if (m_solidness == HARD || m_solidness == SOFT)
+			return true;
+		return false;
+	}
+
+	// Set Object Solidness
+	int Object::setSolidness(Solidness new_solid) {
+		if (new_solid < HARD || new_solid > SPECTRAL)
+			return -1;
+		m_solidness = new_solid;
+		return 0;
+	}
+
+	// Get Object Solidness
+	Solidness Object::getSolidness() const {
+		return m_solidness;
+	}
+
+	// Set "no soft" setting (True - Cannot move onto SOFT Objects)
+	void Object::setNoSoft(bool new_no_soft) {
+		m_no_soft = new_no_soft;
+	}
+
+	// Get "no soft"
+	bool Object::getNoSoft() const {
+		return m_no_soft;
+	}
 
 	Object::~Object() {
 		WM.removeObject(this);					//Remove Self from game world
