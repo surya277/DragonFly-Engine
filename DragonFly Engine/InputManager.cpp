@@ -1,4 +1,5 @@
 #include "InputManager.h"
+#include "LogManager.h"
 #include "DisplayManager.h"
 #include "EventKeyboard.h"
 #include "EventMouse.h"
@@ -20,6 +21,8 @@ namespace df {
 	// Get Window ready to capture input
 	// Return 0 if ok else -1
 	int InputManager::startUp() {
+		if (Manager::isStarted())
+			LM.writeLog("Input Manager has already been started\n");
 		if (!DM.isStarted())
 			return -1;
 		sf::RenderWindow* window = DM.getWindow();
@@ -46,7 +49,7 @@ namespace df {
 		while (window->pollEvent(event)) {
 			
 			// Check if keypressed and send event
-			if (sf::Event::KeyPressed){
+			if (event.type == sf::Event::KeyPressed){
 				EventKeyboard keyboard_event;
 				keyboard_event.setKey(getDfCode(event.key.code));
 				keyboard_event.setKeyboardAction(df::KEY_PRESSED);
@@ -54,14 +57,14 @@ namespace df {
 			}
 
 			// Check if key realeased and send event
-			else if (sf::Event::KeyReleased){
+			else if (event.type == sf::Event::KeyReleased){
 				EventKeyboard keyboard_event;
 				keyboard_event.setKey(getDfCode(event.key.code));
 				keyboard_event.setKeyboardAction(df::KEY_RELEASED);
 				onEvent(&keyboard_event);
 			}
 			// Check if mouse pressed and send event
-			else if(sf::Event::MouseButtonPressed){
+			else if(event.type == sf::Event::MouseButtonPressed){
 				EventMouse mouse_event;
 				mouse_event.setMouseButton(getDfMouseCode(event.mouseButton.button));
 				mouse_event.setMouseAction(df::CLICKED);
@@ -70,7 +73,7 @@ namespace df {
 			}
 
 			// Check if mouse moved and send event
-			else if (sf::Event::MouseMoved)
+			else if (event.type == sf::Event::MouseMoved)
 			{
 				EventMouse mouse_event;
 				//mouse_event.setMouseButton(getDfMouseCode(event.key.code));

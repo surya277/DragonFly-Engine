@@ -1,4 +1,5 @@
 #include "DisplayManager.h"
+#include "LogManager.h"
 
 namespace df {
 	DisplayManager::DisplayManager() {
@@ -17,6 +18,9 @@ namespace df {
 	}
 
 	int DisplayManager::startUp() {
+		if (Manager::isStarted())
+			LM.writeLog("DisplayManager has already been started\n");
+
 		if (m_p_window != NULL)
 			return 0;
 		

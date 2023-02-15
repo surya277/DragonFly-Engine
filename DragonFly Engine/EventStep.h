@@ -2,9 +2,11 @@
 
 #include "Event.h"
 
-const std::string STEP_EVENT = "df::step";
+
 
 namespace df {
+
+	const std::string STEP_EVENT = "df::step";
 
 	class EventStep : public Event
 	{

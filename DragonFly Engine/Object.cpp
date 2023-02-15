@@ -2,6 +2,9 @@
 #include "WorldManager.h"
 #include "DisplayManager.h"
 
+
+#include <iostream>
+
 namespace df {
 
 	Object::Object() {
@@ -12,6 +15,7 @@ namespace df {
 		m_speed = 0.0f;
 		m_solidness = HARD;
 		m_no_soft = false;
+		m_altitude = 2;
 		// Add self to WorldManager
 		WM.insertObject(this);
 	}
@@ -42,12 +46,15 @@ namespace df {
 
 	int Object::eventHandler(const Event* p_e)
 	{
+		//std::cout << p_e->getType();
+
 		return 0;
 	}
 
 	// Draw Object
 	int Object::draw() {
-		//DM.drawCh(m_position, );
+		char ch = '+';
+		DM.drawCh(m_position,ch,df::RED);
 		return 1;
 	}
 

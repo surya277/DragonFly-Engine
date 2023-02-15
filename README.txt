@@ -1,4 +1,6 @@
-PROJECT 2A - DRAGONFLY EGG
+// COMMENTS - ADD IMPLEMENTED DETAILS (BRIEF)  (LIST FILES)
+
+PROJECT 2B - DRAGONFLY NAIAD
 
 -------------------------------------------------------------
 
@@ -21,8 +23,10 @@ DragonFly Engine
 README.txt
 DragonFly Engine.sln
 
-
-
+SFML - 2.5
+	|
+	----------------- ALL SFML FILES REQUIRED TO RUN
+	
 --------------------------------------------------------------
 
 HOW TO COMPILE:

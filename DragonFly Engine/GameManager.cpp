@@ -29,6 +29,9 @@ namespace df {
 
 	// Startup all GameManager Services
 	int GameManager::startUp() {
+		if (Manager::isStarted())
+			LM.writeLog("GameManager has already been started\n");
+
 		timeBeginPeriod(1);
 		LM.startUp();
 		WM.startUp();
@@ -53,10 +56,12 @@ namespace df {
 			long int start_time = clock.delta();
 			IM.getInput();
 			// Get Input
-
+			
 			WM.update();
+			
 			WM.draw();
-			DM.drawCh(Vector(0, 0), '-',df::YELLOW);
+			DM.drawString(df::Vector(7, 10), "HELLO", df::CENTER_JUSTIFIED, df::BLUE);
+			//DM.drawCh(Vector(0, 0), '-',df::YELLOW);
 			DM.swapBuffers();
 			
 			

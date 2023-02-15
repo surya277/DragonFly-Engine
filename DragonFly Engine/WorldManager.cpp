@@ -1,9 +1,13 @@
 #include "WorldManager.h"
+#include "LogManager.h"
+#include "Object.h"
 #include "ObjectListIterator.h"
 #include "Utility.h"
 #include "EventCollision.h"
 #include "DisplayManager.h"
 #include "EventOut.h"
+
+#include<iostream>
 
 
 namespace df {
@@ -20,6 +24,8 @@ namespace df {
 	}
 
 	int WorldManager::startUp() {
+		if (Manager::isStarted())
+			LM.writeLog("WorldManager has already been started\n");
 		Manager::startUp();
 		return 0;
 	}
@@ -72,7 +78,7 @@ namespace df {
 	void WorldManager::update() {
 
 
-		
+
 		// Delete all marked Objects
 		ObjectListIterator li(&m_deletions);
 		while (!li.isDone()) {
@@ -81,14 +87,15 @@ namespace df {
 		}
 
 		m_deletions.clear();		// Clear list for next update
-		
+
 
 		// Update Object position based on their velocity
 		ObjectListIterator itr(&m_updates);
 		while (!itr.isDone()) {
 			Vector new_pos = itr.currentObject()->predictPosition();
 
-			if (new_pos.getX() != itr.currentObject()->getPosition().getX() && new_pos.getY() != itr.currentObject()->getPosition().getY()) {
+
+			if (new_pos.getX() != itr.currentObject()->getPosition().getX() || new_pos.getY() != itr.currentObject()->getPosition().getY()) {
 				moveObject(itr.currentObject(), new_pos);
 			}
 			itr.next();
@@ -99,7 +106,7 @@ namespace df {
 	// Return 0 if ok, or else -1
 	int WorldManager::markForDelete(Object* p_o) {
 		ObjectListIterator li(&m_deletions);
-		
+
 		// Check if Objects have already been marked
 		while (!li.isDone()) {
 			if (li.currentObject() == p_o) {
@@ -117,14 +124,16 @@ namespace df {
 
 		ObjectListIterator li(&m_updates);
 		for (int i = 0; i < MAX_ALTITUDE; i++) {
-
+			li.first();
 			while (!li.isDone()) {
 				Object* p_temp_o = li.currentObject();
+
 				if (p_temp_o->getAltitude() == i) {
 					p_temp_o->draw();
-					li.next();
 				}
+				li.next();
 			}
+
 		}
 	}
 
@@ -140,7 +149,7 @@ namespace df {
 
 		while (!itr.isDone()) {
 			Object* p_temp = itr.currentObject();
-			
+
 			if (p_temp != p_o) {
 				if ((Utility::positionsIntersect(p_temp->getPosition(), where)) && (p_temp->isSolid())) {
 					collision_list.insert(p_temp);
@@ -157,8 +166,8 @@ namespace df {
 	// If no collision with solid, move ok else don't move
 	// If Object is SPECTRAL move ok
 	// Return 0 if move ok, else -1 if collision with solid
-	int WorldManager::moveObject(Object * p_o, Vector where) {
-		
+	int WorldManager::moveObject(Object* p_o, Vector where) {
+
 		if (p_o->isSolid()) {
 			ObjectList list = getCollision(p_o, where);
 
@@ -197,7 +206,7 @@ namespace df {
 		// if here, Both Objects are not HARD so 
 		p_o->setPosition(where);
 
-		if (p_o->getPosition().getX() > DM.getHorizontal() && p_o->getPosition().getY() > DM.getVertical()) {
+		if (p_o->getPosition().getX() > DM.getHorizontal() || p_o->getPosition().getX() < 0 || p_o->getPosition().getY() > DM.getVertical() || p_o->getPosition().getY() < 0 ) {
 			EventOut ov;
 			p_o->eventHandler(&ov);
 		}

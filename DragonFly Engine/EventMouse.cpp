@@ -5,6 +5,7 @@ namespace df {
 	EventMouse::EventMouse() {
 		m_mouse_action = UNDEFINED_MOUSE_ACTION;
 		m_mouse_button = Mouse::UNDEFINED_MOUSE_BUTTON;
+		setType(MSE_EVENT);
 	}
 	
 	// Load Mouse event's action

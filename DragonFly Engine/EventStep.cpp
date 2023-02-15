@@ -3,13 +3,13 @@
 namespace df {
 
 	EventStep::EventStep() {
-		setType("STEP_EVENT");
+		setType(STEP_EVENT);
 	}
 
 	// Constructor with initial step count
 	EventStep::EventStep(int init_step_count) {
 		m_step_count = init_step_count;
-		setType("STEP_EVENT");
+		setType(STEP_EVENT);
 	}
 
 
