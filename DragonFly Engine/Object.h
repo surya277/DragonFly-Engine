@@ -4,6 +4,7 @@
 
 #include "Vector.h"
 #include "Event.h"
+#include "Animation.h"
 namespace df {
 
 	enum Solidness {
@@ -24,6 +25,7 @@ namespace df {
 		float m_speed;					// Speed of Object
 		Solidness m_solidness;			// Solidness of Object
 		bool m_no_soft;					// True if won't move onto soft objects
+		Animation m_animation;			// Animation associated with Object
 
 	public:
 		Object();
@@ -53,8 +55,6 @@ namespace df {
 		// Return 0 if ignored, else 1 if handled
 		virtual int eventHandler(const Event* p_e);
 
-		// Draw Object
-		virtual int draw();
 
 		// Set altitude of Object
 		// return 0 if ok, else -1
@@ -111,6 +111,25 @@ namespace df {
 
 		// Get no soft setting
 		bool getNoSoft() const;
+
+
+		// ANIMATION
+
+		
+		// Set sprite for this Object to animate
+		// Return 0 if ok, else -1
+		int setSprite(std::string sprite_label);
+
+		// Set Animation for this object to new one
+		// Set bounding box to size of associated Sprite
+		void setAnimation(Animation new_animation);
+
+		// Get Animation for this Object
+		Animation getAnimation() const;
+
+		// Draw Object Animation
+		// Return 0 if ok,else -1
+		virtual int draw();
 
 	};
 

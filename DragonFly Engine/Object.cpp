@@ -1,7 +1,8 @@
 #include "Object.h"
 #include "WorldManager.h"
 #include "DisplayManager.h"
-
+#include "ResourceManager.h"
+#include "LogManager.h"
 
 #include <iostream>
 
@@ -51,12 +52,6 @@ namespace df {
 		return 0;
 	}
 
-	// Draw Object
-	int Object::draw() {
-		char ch = '+';
-		DM.drawCh(m_position,ch,df::RED);
-		return 1;
-	}
 
 	// Set altitude of Object
 	int Object::setAltitude(int new_altitude) {
@@ -143,6 +138,51 @@ namespace df {
 	bool Object::getNoSoft() const {
 		return m_no_soft;
 	}
+
+
+	// Set sprite for this Object to animate
+	// Return 0 if ok, else -1
+	int Object::setSprite(std::string sprite_label) {
+		Sprite* p_sprite = RM.getSprite(sprite_label);
+
+		if (p_sprite == NULL) {
+			LM.writeLog("Error Setting sprite\n");
+			return -1;
+		}
+
+		m_animation.setSprite(p_sprite);
+		return 0;
+	}
+
+	// Set Animation for this object to new one
+	// Set bounding box to size of associated Sprite
+	void Object::setAnimation(Animation new_animation) {
+		m_animation = new_animation;
+	}
+
+	// Get Animation for this Object
+	Animation Object::getAnimation() const {
+		return m_animation;
+	}
+
+	// Draw Object Animation
+	// Return 0 if ok,else -1
+	int Object::draw() {
+		Vector pos = getPosition();
+		return m_animation.draw(pos);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
 
 	Object::~Object() {
 		WM.removeObject(this);					//Remove Self from game world
