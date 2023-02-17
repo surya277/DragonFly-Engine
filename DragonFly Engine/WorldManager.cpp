@@ -129,7 +129,11 @@ namespace df {
 				Object* p_temp_o = li.currentObject();
 
 				if (p_temp_o->getAltitude() == i) {
-					p_temp_o->draw();
+					Box temp_box = Utility::getWorldBox(p_temp_o);
+
+					// Only draw if Object would be visible on window (Intersects view)
+					if(Utility::boxIntersectsBox(temp_box, view))
+						p_temp_o->draw();
 				}
 				li.next();
 			}
@@ -146,12 +150,13 @@ namespace df {
 	{
 		ObjectList collision_list;
 		ObjectListIterator itr(&m_updates);
+		Box b = Utility::getWorldBox(p_o, where);
 
 		while (!itr.isDone()) {
 			Object* p_temp = itr.currentObject();
-
+			Box b_temp = Utility::getWorldBox(p_temp);
 			if (p_temp != p_o) {
-				if ((Utility::positionsIntersect(p_temp->getPosition(), where)) && (p_temp->isSolid())) {
+				if ((Utility::boxIntersectsBox(b,b_temp)) && (p_temp->isSolid())) {
 					collision_list.insert(p_temp);
 				}
 			}
@@ -165,7 +170,9 @@ namespace df {
 	// If collision with solid, send collision events
 	// If no collision with solid, move ok else don't move
 	// If Object is SPECTRAL move ok
+	// If moved from inside world boundary to outside, generate EventOut
 	// Return 0 if move ok, else -1 if collision with solid
+
 	int WorldManager::moveObject(Object* p_o, Vector where) {
 
 		if (p_o->isSolid()) {
@@ -204,14 +211,100 @@ namespace df {
 		}
 
 		// if here, Both Objects are not HARD so 
-		p_o->setPosition(where);
+		Box orig_box = Utility::getWorldBox(p_o);			// Original bounding box
+		p_o->setPosition(where);							// move object
+		Box new_box = Utility::getWorldBox(p_o);			// new bounding box
 
-		if (p_o->getPosition().getX() > DM.getHorizontal() || p_o->getPosition().getX() < 0 || p_o->getPosition().getY() > DM.getVertical() || p_o->getPosition().getY() < 0 ) {
+
+		// If moved from inside world boundary to outside, generate EventOut
+		if (Utility::boxIntersectsBox(orig_box, boundary) && !Utility::boxIntersectsBox(new_box,boundary)) {
 			EventOut ov;
 			p_o->eventHandler(&ov);
 		}
+
+		// If view is following this object, adjust view
+		if (p_view_following == p_o)
+			setViewPosition(p_o->getPosition());
 		return 0;
 	}
 
 
+	// VIEWPORT AND BOUNDARY
+
+	// Set game world boundary
+	void WorldManager::setBoundary(Box new_boundary) {
+		boundary = new_boundary;
+	}
+
+	// Get game world boundary
+	Box WorldManager::getBoundary() const {
+		return boundary;
+	}
+
+	// Set player view of game world
+	void WorldManager::setView(Box new_view) {
+		view = new_view;
+	}
+
+	// Get player view of game world
+	Box WorldManager::getView() const {
+		return view;
+	}
+
+	// Set view to center window on position view_pos
+	// View edge will not go beyond world boundary
+	void WorldManager::setViewPosition(Vector view_pos) {
+
+		// Make sure horizontal not out of world boundary
+		float x = view_pos.getX() - view.getHorizontal() / 2;
+		if (x + view.getHorizontal() > boundary.getHorizontal())
+			x = boundary.getHorizontal() - view.getHorizontal();
+
+		if (x < 0)
+			x = 0;
+
+		// Make sure vertical not out of boundary
+		float y = view_pos.getY() - view.getVertical() / 2;
+		if (y + view.getVertical() > boundary.getVertical())
+			y = boundary.getVertical() - view.getVertical();
+
+		if (y < 0)
+			y = 0;
+
+
+		// Set view
+		Vector new_corner(x, y);
+		view.setCorner(new_corner);
+	}
+	
+
+	// Set view to follow Object
+	// Set to NULL to stop following
+	// if p_new_view_following not legit, return -1 else 0
+	int WorldManager::setViewFollowing(Object* p_new_view_following) {
+		bool found = false;
+		// Set to NULL to turn 'off' following
+		if (p_new_view_following == NULL)
+			p_view_following = NULL;
+
+		// Iterate over all objects. Make sure p_new_view_following is present]
+		ObjectList list = WM.getAllObjects();
+		ObjectListIterator list_itr(&list);
+
+		while (!list_itr.isDone()) {
+			if (list_itr.currentObject() == p_new_view_following)
+				found = true;
+			list_itr.next();
+		}
+
+		//If found, adjust attribute accordingly and set view position
+		if (found) {
+			p_view_following = p_new_view_following;
+			setViewPosition(p_view_following->getPosition());
+			return 0;
+		}
+
+		// if reached here, not legit. Return Error
+		return -1;
+	}
 }

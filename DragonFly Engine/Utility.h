@@ -1,5 +1,7 @@
 #pragma once
 #include "Vector.h"
+#include "Object.h"
+#include "Box.h"
 
 namespace df {
 
@@ -11,6 +13,19 @@ namespace df {
 
 		// Return true if two positions intersect, else false
 		static bool positionsIntersect(Vector p1, Vector p2);
+
+
+		// Return true if boxes interect, else false
+		static bool boxIntersectsBox(Box A, Box B);
+
+		// Convert relative bounding box for object to absolute world box 
+		static Box getWorldBox(const Object* p_o);
+
+		// Convert relative bounding box for object to absolute world box 
+		static Box getWorldBox(const Object* p_o, Vector where);
+
+		// Convert world position to view position
+		static Vector worldToView(Vector world_pos);
 	};
 }
 

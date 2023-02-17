@@ -5,6 +5,8 @@
 #include "Vector.h"
 #include "Event.h"
 #include "Animation.h"
+#include "Box.h"
+
 namespace df {
 
 	enum Solidness {
@@ -26,7 +28,7 @@ namespace df {
 		Solidness m_solidness;			// Solidness of Object
 		bool m_no_soft;					// True if won't move onto soft objects
 		Animation m_animation;			// Animation associated with Object
-
+		Box m_box;						// Box for sprite boundary and Collsions
 	public:
 		Object();
 
@@ -131,6 +133,14 @@ namespace df {
 		// Return 0 if ok,else -1
 		virtual int draw();
 
+
+		// BOUNDING BOXES
+		
+		// Set Object's bounding box
+		void setBox(Box new_box);
+
+		// Get Object's bounding box
+		Box getBox() const;
 	};
 
 }

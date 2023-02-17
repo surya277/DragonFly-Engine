@@ -18,6 +18,12 @@ namespace df {
 		ObjectList m_updates;
 		ObjectList m_deletions;
 		
+		Box boundary;							// World Boundary
+		Box view;								// Player view of game world
+
+		Object* p_view_following;				// Object view is following
+	
+
 
 	public:
 		// Get one and only instance of world manager
@@ -69,6 +75,29 @@ namespace df {
 		// If Object is SPECTRAL move ok
 		// Return 0 if move ok, else -1 if collision with solid
 		int moveObject(Object* p_o, Vector where);
+
+
+		// BOUNDARY AND VIEWPORT
+
+		// Set game world boundary
+		void setBoundary(Box new_boundary);
+
+		// Get game world boundary
+		Box getBoundary()const;
+
+		// Set player view of game world
+		void setView(Box new_view);
+
+		// Get player view of game world
+		Box getView() const;
+
+		// Set view to center window on position view_pos
+		// View edge will not go beyond world boundary
+		void setViewPosition(Vector view_pos);
+
+		// Set to NULL to stop following
+		// if p_new_view_following not legit, return -1 else 0
+		int setViewFollowing(Object* p_new_view_following);
 	};
 
 }

@@ -1,5 +1,6 @@
 #include "DisplayManager.h"
 #include "LogManager.h"
+#include "Utility.h"
 
 namespace df {
 	DisplayManager::DisplayManager() {
@@ -53,9 +54,12 @@ namespace df {
 		// Check and make sure window is allocated
 		if (m_p_window == NULL)
 			return -1;
+		
+		// Convert from world pos to viewport pos
+		Vector view_pos = Utility::worldToView(world_pos);
 
 		// Convert spaces to pixels
-		Vector pixel_pos = spacesToPixels(world_pos);
+		Vector pixel_pos = spacesToPixels(view_pos);
 
 		// Draw Rectangular bacground since text is "see through" in SFML
 		static sf::RectangleShape rectangle;

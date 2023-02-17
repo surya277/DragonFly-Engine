@@ -173,7 +173,20 @@ namespace df {
 	}
 
 
+	// BOUNDING BOXES
 
+
+	// Set Object's bounding box
+	void Object::setBox(Box new_box) {
+		m_box = new_box;
+
+	}
+
+
+	// Get Object's bounding box
+	Box Object::getBox() const {
+		return m_box;
+	}
 
 
 

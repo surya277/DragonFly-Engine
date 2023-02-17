@@ -3,6 +3,7 @@
 #include<string>
 
 #include "Sprite.h"
+#include "Box.h"
 
 namespace df {
 
@@ -49,6 +50,10 @@ namespace df {
 		// Drawing accounts for slowdown, and advances sprite frame
 		// Return 0 if ok, else -1
 		int draw(Vector position);
+
+
+		// Get Bounding box of associated sprite
+		Box getBox() const;
 	};
 
 }

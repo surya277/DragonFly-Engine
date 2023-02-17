@@ -36,7 +36,7 @@ namespace df {
 		LM.startUp();
 		WM.startUp();
 		DM.startUp();
-		IM.startUp();
+		WM.setBoundary(Box(Vector(0, 0), DM.getHorizontal(), DM.getVertical()));
 		LM.writeLog("Game Manager Started. \n");
 		return 0;
 	}
