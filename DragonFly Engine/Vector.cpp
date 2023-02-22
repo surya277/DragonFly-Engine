@@ -78,10 +78,12 @@ namespace df {
 	}
 
 
+	Vector& Vector::operator=(const Vector& v) {
+		m_x = v.m_x;
+		m_y = v.m_y;
 
-
-
-
+		return *this;
+	}
 
 
 

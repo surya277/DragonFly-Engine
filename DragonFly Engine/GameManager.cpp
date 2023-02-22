@@ -4,6 +4,8 @@
 #include "Clock.h"
 #include "DisplayManager.h"
 #include "InputManager.h"
+#include "EventStep.h"
+
 
 #include <iostream>
 #include <Windows.h>
@@ -37,6 +39,7 @@ namespace df {
 		WM.startUp();
 		DM.startUp();
 		WM.setBoundary(Box(Vector(0, 0), DM.getHorizontal(), DM.getVertical()));
+		WM.setView(Box(Vector(0, 0), DM.getHorizontal(), DM.getVertical()));
 		LM.writeLog("Game Manager Started. \n");
 		return 0;
 	}
@@ -51,9 +54,14 @@ namespace df {
 
 	// Run Game Loop
 	void GameManager::run() {
+		Clock clock;
+		int frame_count = 0;
 		while (!game_over) {
-			Clock clock;
 			long int start_time = clock.delta();
+
+			EventStep eventStep(++frame_count);
+			onEvent(&eventStep);
+
 			IM.getInput();
 			// Get Input
 			

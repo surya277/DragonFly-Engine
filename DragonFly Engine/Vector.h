@@ -41,6 +41,10 @@ namespace df {
 		// Subtract two vector and return new Vector
 		Vector operator-(const Vector& other) const;
 
+		// Assignment
+		Vector& operator=(const Vector& v);
 
+		//Multiply vector with scalar, return new Vector
+		// operator*(float s) const;
 	};
 }

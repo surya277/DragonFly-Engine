@@ -26,6 +26,12 @@ namespace df {
 
 		// Convert world position to view position
 		static Vector worldToView(Vector world_pos);
+
+		// Convert view position to world position
+		static Vector viewToWorld(Vector view_pos);
+
+		// Convert int to a string, returning a string
+		static std::string toString(int i);
 	};
 }
 

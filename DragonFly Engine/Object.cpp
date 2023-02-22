@@ -151,6 +151,7 @@ namespace df {
 		}
 
 		m_animation.setSprite(p_sprite);
+		setBox(m_animation.getBox());
 		return 0;
 	}
 

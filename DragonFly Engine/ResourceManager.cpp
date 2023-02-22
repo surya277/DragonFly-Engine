@@ -6,7 +6,6 @@
 namespace df {
 
 	ResourceManager::ResourceManager() {
-		m_sprite_count = 0;
 		setType("ResourceManager");
 	}
 
@@ -19,6 +18,8 @@ namespace df {
 		if (Manager::isStarted())
 			LM.writeLog("Resource Manager has already been started\n");
 		m_sprite_count = 0;
+		m_sound_count = 0;
+		m_music_count = 0;
 		return 0;
 	}
 
@@ -37,7 +38,7 @@ namespace df {
 		//
 		std::ifstream spritefile(filename);
 		std::string line;
-		int frame, width, height, slowdown;
+		int frame=0, width=0, height=0, slowdown=0;
 		std::string color;
 		Color spriteColor;
 		if (spritefile.is_open()) {
@@ -86,9 +87,10 @@ namespace df {
 
 		// Get each frame and set their attributes
 		for (int i = 1; i < frame; i++) {
+			frame_string->setString("");
 			for (int j = 1; j < height; j++) {
 				getline(spritefile, line);
-				frame_string->setString(line);
+				frame_string->setString(frame_string->getString() + line);;
 			}
 			frame_string->setHeight(height);
 			frame_string->setWidth(width);
@@ -100,6 +102,8 @@ namespace df {
 
 		// Set label
 		loaded_sprite->setLabel(label);
+		m_p_sprite[m_sprite_count] = loaded_sprite;
+		m_sprite_count++;
 
 		return 0;
 	}
@@ -137,7 +141,103 @@ namespace df {
 	}
 
 
+	// SOUND AND MUSIC
+
+	// Load sound from file
+	// Return 0 if ok, else -1
+	int ResourceManager::loadSound(std::string filename, std::string label) {
+		
+		// Check if array is full
+		if (m_sound_count >= MAX_SOUNDS){
+			LM.writeLog("Sound Array is full.\n");
+			return -1;
+		}
+
+		// Check for file
+		if (sound[m_sound_count].loadSound(filename) == -1) {
+			LM.writeLog("Unable to load Sound from file.\n");
+			return -1;
+		}
+
+		sound[m_sound_count].setLabel(label);
+		m_sound_count++;
+	}
+
+	// Remove Sound with indicated label
+	// Return 0 if ok, else -1
+	int ResourceManager::unloadSound(std::string label) {
+
+		for (int i = 0; i < m_sound_count; i++) {
+			if (label == sound[i].getLabel()) {
+				for (int j = i; j < m_sound_count - 1; j++) {
+					sound[j] = sound[j + 1];
+				}
+				m_sound_count--;
+				return 1;
+			}
+		}
+		LM.writeLog("Sound File not found.\n");
+		return -1;
+	}
 	
 
+	// Find sound with indicated label
+	// Return pointer to it if found, else NULL
+	Sound* ResourceManager::getSound(std::string label) {
 
+		for (int i = 0; i < m_sound_count; i++) {
+			if (label == sound[i].getLabel())
+				return &sound[i];
+		}
+
+		return NULL;				// Sound not found
+	}
+
+
+	// Associate file with Music
+	// Return 0 if ok, else -1
+	int ResourceManager::loadMusic(std::string filename, std::string label) {
+		
+		// Check if array is full
+		if (m_music_count >= MAX_MUSICS) {
+			LM.writeLog("Music Array is full.\n");
+			return -1;
+		}
+
+		// Check for file
+		if (music[m_music_count].loadMusic(filename) == -1) {
+			LM.writeLog("Unable to load Sound from file.\n");
+			return -1;
+		}
+
+		music[m_music_count].setLabel(label);
+		m_music_count++;
+	}
+
+	// Remove label for music with indicated label
+	// Return 0 if ok, else -1
+	int ResourceManager::unloadMusic(std::string label) {
+
+		for (int i = 0; i < m_music_count; i++) {
+			if (label == music[i].getLabel()) {
+				music[i].setLabel("");						// Music cannot be copied so we set the label to "" so it can't be accessed
+				m_music_count--;
+				return 1;
+			}
+		}
+		LM.writeLog("Music File not found.\n");
+		return -1;
+	}
+
+	// Find Music with indiacted label
+	// Return pointer to it if found, else NULL
+	Music* ResourceManager::getMusic(std::string label) {
+
+		for (int i = 0; i < m_music_count; i++) {
+			if (label == music[i].getLabel())
+				return &music[i];
+		}
+
+		return NULL;
+	}
 }

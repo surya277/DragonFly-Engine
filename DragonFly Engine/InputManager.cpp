@@ -68,7 +68,7 @@ namespace df {
 				EventMouse mouse_event;
 				mouse_event.setMouseButton(getDfMouseCode(event.mouseButton.button));
 				mouse_event.setMouseAction(df::CLICKED);
-				mouse_event.setMousePosition(Vector(event.mouseButton.x, event.mouseButton.y));
+				mouse_event.setMousePosition(Vector(event.mouseButton.x / DM.charWidth(), event.mouseButton.y / DM.charHeight()));
 				onEvent(&mouse_event);
 			}
 
@@ -78,7 +78,7 @@ namespace df {
 				EventMouse mouse_event;
 				//mouse_event.setMouseButton(getDfMouseCode(event.key.code));
 				mouse_event.setMouseAction(df::MOVED);
-				mouse_event.setMousePosition(Vector(event.mouseButton.x, event.mouseButton.y));
+				mouse_event.setMousePosition(Vector(event.mouseMove.x / DM.charWidth(), event.mouseMove.y / DM.charHeight()));
 				onEvent(&mouse_event);
 			}
 		 }
@@ -102,7 +102,7 @@ namespace df {
 					EventMouse mouse_event;
 					mouse_event.setMouseButton((Mouse::Button)i);
 					mouse_event.setMouseAction(df::PRESSED);
-					mouse_event.setMousePosition(Vector(event.mouseButton.x, event.mouseButton.y));
+					mouse_event.setMousePosition(Vector(event.mouseButton.x / DM.charWidth(), event.mouseButton.y / DM.charHeight()));
 					onEvent(&mouse_event);
 				}
 			}

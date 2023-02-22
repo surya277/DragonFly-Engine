@@ -6,6 +6,7 @@
 #include "EventCollision.h"
 #include "DisplayManager.h"
 #include "EventOut.h"
+#include "ViewObject.h"
 
 #include<iostream>
 
@@ -132,7 +133,7 @@ namespace df {
 					Box temp_box = Utility::getWorldBox(p_temp_o);
 
 					// Only draw if Object would be visible on window (Intersects view)
-					if(Utility::boxIntersectsBox(temp_box, view))
+					if(Utility::boxIntersectsBox(temp_box, view) || dynamic_cast<ViewObject*> (p_temp_o))
 						p_temp_o->draw();
 				}
 				li.next();

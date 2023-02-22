@@ -74,7 +74,7 @@ namespace df {
 		int count = getSlowdownCount();
 		count++;
 
-		if (count >= getSlowdownCount()) {
+		if (count >= m_p_sprite->getSlowdown()) {
 			count = 0;
 			index++;							// Advance frame
 
