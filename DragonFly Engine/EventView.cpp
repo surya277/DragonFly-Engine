@@ -14,7 +14,7 @@ namespace df {
 	// Create view event with tag, value and delta as indicated
 	EventView::EventView(std::string new_tag, int new_value, bool new_delta) {
 		m_tag = new_tag;
-		setType(m_tag);
+		setType(VIEW_EVENT);
 		m_value = new_value;
 		m_delta = new_delta;
 		

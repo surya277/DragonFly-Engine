@@ -42,17 +42,22 @@ namespace df {
 		std::string color;
 		Color spriteColor;
 		if (spritefile.is_open()) {
-
-			getline(spritefile, line);
-			frame = atoi(line.c_str());
-			getline(spritefile, line);
-			width = atoi(line.c_str());
-			getline(spritefile, line);
-			height = atoi(line.c_str());
-			getline(spritefile, line);
-			slowdown = atoi(line.c_str());
-			getline(spritefile, line);
-			color = line;
+			if (spritefile.good()) {
+				getline(spritefile, line);
+				frame = atoi(line.c_str());
+				getline(spritefile, line);
+				width = atoi(line.c_str());
+				getline(spritefile, line);
+				height = atoi(line.c_str());
+				getline(spritefile, line);
+				slowdown = atoi(line.c_str());
+				getline(spritefile, line);
+				color = line;
+			}
+			else {
+				LM.writeLog("Failed to open file\n");
+				return -1;
+			}
 		}
 
 		// Set Color
@@ -83,18 +88,18 @@ namespace df {
 		loaded_sprite->setSlowdown(slowdown);
 		loaded_sprite->setColor(spriteColor);
 
-		Frame* frame_string = new Frame();
+		Frame frame_string;
 
 		// Get each frame and set their attributes
-		for (int i = 1; i < frame; i++) {
-			frame_string->setString("");
-			for (int j = 1; j < height; j++) {
+		for (int i = 1; i <= frame; i++) {
+			frame_string.setString("");
+			for (int j = 1; j <= height; j++) {
 				getline(spritefile, line);
-				frame_string->setString(frame_string->getString() + line);;
+				frame_string.setString(frame_string.getString() + line);
 			}
-			frame_string->setHeight(height);
-			frame_string->setWidth(width);
-			loaded_sprite->addFrame(*frame_string);
+			frame_string.setHeight(height);
+			frame_string.setWidth(width);
+			loaded_sprite->addFrame(frame_string);
 		}
 
 		// Close File

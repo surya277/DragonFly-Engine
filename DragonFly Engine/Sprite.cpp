@@ -5,7 +5,14 @@
 namespace df {
 
 	Sprite::Sprite() {
-
+		m_frame_count = 0;
+		m_width = 0;
+		m_height = 0;
+		m_frame = new Frame;
+		m_max_frame_count = 0;
+		m_color = COLOR_DEFAULT;
+		m_transparency = 0;
+		m_slowdown = 1;
 	}
 
 	// Create sprite with indicated maximum number of frames
@@ -99,7 +106,7 @@ namespace df {
 	// Return -1 if frame array full, else 0
 	int Sprite::addFrame(Frame new_frame) {
 		// Check if frame array is filled
-		if (m_frame_count < m_max_frame_count) {
+		if (m_frame_count > m_max_frame_count) {
 			LM.writeLog("Sprite is Full\n");
 			return -1;
 		}
@@ -122,7 +129,7 @@ namespace df {
 	int Sprite::draw(int frame_number, Vector position) const
 	{
 		if(frame_number >= 0 && frame_number < m_frame_count )
-			return m_frame->draw(position, m_color, m_transparency);
+			return m_frame[frame_number].draw(position, m_color, m_transparency);
 
 		return -1;
 	}

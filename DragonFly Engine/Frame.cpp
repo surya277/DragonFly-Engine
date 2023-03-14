@@ -64,7 +64,7 @@ namespace df {
 		// Draw character by character
 		for (int i = 0; i < m_height; i++) {
 			for (int j = 0; j < m_width; j++) {
-				if (transparency == 0 || m_frame_str[i * getWidth() + j]) {
+				if (transparency == 0 || m_frame_str[i * getWidth() + j] != transparency) {
 					Vector temp_pos(position.getX() + j - x_offset, position.getY() + i - y_offset);
 					DM.drawCh(temp_pos, m_frame_str[i * m_width + j], color);
 				}

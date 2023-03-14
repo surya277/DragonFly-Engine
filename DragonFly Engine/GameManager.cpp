@@ -68,8 +68,6 @@ namespace df {
 			WM.update();
 			
 			WM.draw();
-			DM.drawString(df::Vector(7, 10), "HELLO", df::CENTER_JUSTIFIED, df::BLUE);
-			//DM.drawCh(Vector(0, 0), '-',df::YELLOW);
 			DM.swapBuffers();
 			
 			
